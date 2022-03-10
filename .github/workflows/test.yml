@@ -26,16 +26,3 @@ jobs:
     - name: Correr pruebas
       id: correr-pruebas
       run: python -m unittest discover -s tests
-      
-  automerge:
-    name: Automerge
-    needs: job1
-    runs-on: windows-latest
-    steps:
-      - name: Mezcla develop -> main
-        uses: tukasz/direct-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: develop
-          target-branch: main
-          commit-message: "Se mezcló la rama develop con main"
