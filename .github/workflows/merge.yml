@@ -1,0 +1,52 @@
+name: Merge
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  job1:
+    name: Pruebas
+    runs-on: windows-latest
+    steps:
+    - name: Checkout de repositorio
+      uses: actions/checkout@v2
+    - name: Configuración de entorno de python
+      uses: actions/setup-python@v2
+      with:
+          python-version: '3.9.1'
+    - name: Instalación de librerías y dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Correr pruebas
+      id: correr-pruebas
+      run: python -m unittest discover -s tests
+    - name: Validar resultado con errores
+      if: ${{ failure() }}
+      env:
+        MENSAJE_ERROR: Una o varias pruebas fallaron
+      run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
+    - name: Validar resultado sin errores
+      if: ${{ success() }}
+      env:
+        MENSAJE_EXITO: Todas las pruebas fueron exitosas
+      run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
+  
+  automerge:
+    name: Automerge
+    needs: job1
+    runs-on: windows-latest
+    steps:
+      - name: Mezcla develop -> main
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: develop
+          target-branch: main
+          commit-message: "Se mezcló la rama con develop"
