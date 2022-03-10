@@ -47,6 +47,6 @@ jobs:
         uses: tukasz/direct-merge-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: 'feature**'
+          source-branch: feature/nuevo
           target-branch: develop
           commit-message: "Se mezcló la rama con develop"
