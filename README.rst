@@ -3,7 +3,7 @@ tutorial_canciones
 ==================
 
 
-Add a short description here! Ok, where do I start...?
+Add a short description here! Ok, where do I start...? Hmm, I could start with saying that...
 
 
 Description
