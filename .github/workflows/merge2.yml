@@ -43,10 +43,10 @@ jobs:
     needs: job1
     runs-on: windows-latest
     steps:
-      - name: Mezcla 'feature**' -> develop
+      - name: Mezcla feature** -> develop
         uses: tukasz/direct-merge-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: feature/nuevo
+          source-branch: ${{ github.ref }}
           target-branch: develop
           commit-message: "Se mezcló la rama con develop"
